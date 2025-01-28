@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+<body class="bg-[#281a69]">
+    <nav class="flex bg-[#281a69] text-white items-center justify-between px-30 py-5 border-b-1 border-[#ff6096]/20 sticky top-0">
+        <span class="text-3xl font-bold">JBlog</span>
+        <ul class="flex text-xl gap-5" id="test">
+            <li><a href="">Home</a></li>
+            <li><a href="">Blogs</a></li>
+            <li><a href="">About Us</a></li>
+            <li><a href="">Contact Us</a></li>
+        </ul>
+        <button class="bg-white rounded-full px-9 py-2 text-[#ff6096] font-bold">LogIn</button>
+    </nav>
+    <form id="createBlogForm" class="text-[#ff6096] flex flex-col gap-5 px-200 py-40" >
+        <div class="flex flex-col items-start gap-2">
+            <label for="title" class="font-medium text-lg">Title:</label>
+            <input type="text" id="title" placeholder="Enter title" class="bg-white px-1 py-2 text-black w-100 rounded-md" required>
+        </div>
+        <div class="flex flex-col items-start gap-2">
+
+            <label for="imgUrl" class="font-medium text-lg">Image Url:</label>
+            <input type="text" id="imgUrl" placeholder="Paste image url" class="bg-white text-black px-1 py-2 w-100 rounded-md" required>
+        </div>
+        <div class="flex flex-col items-start gap-2">
+            <label for="content" class="font-medium text-lg">Content:</label>
+            <textarea id="content" placeholder="Enter content" class="bg-white px-1 py-2 text-black w-100 min-h-60 rounded-md" required></textarea>
+        </div>
+        <button type="submit" class="font-medium bg-[#ff6096] text-white py-2 w-100 rounded-full">Create Post</button>
+    </form>
+    <script src="/blog_details.js"></script>
+
+</body>
+</html>
