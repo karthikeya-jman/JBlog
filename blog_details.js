@@ -1,38 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-function createBlogPost(event) {
-
-    event.preventDefault();  
+    function createBlogPost(event) {
     
-    const title = document.getElementById('title').value;
-    const content = document.getElementById('content').value;
-    const imgUrl = document.getElementById('imgUrl').value;
+        event.preventDefault();  
+        
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+        const imgUrl = document.getElementById('imgUrl').value;
+    
+        let posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+    
+        const newPost = {
+            id: Date.now(),  
+            title: title,
+            content: content,
+            imgUrl: imgUrl,
+            date: new Date().toLocaleString()
+        };
+    
+        // console.log("Hi");
+    
+        posts.push(newPost);
+    
+        localStorage.setItem('blogPosts', JSON.stringify(posts));
+    
+    
+        document.getElementById('createBlogForm').reset();
+        window.location.href = 'index.html';
+    }
+    
+    document.getElementById('createBlogForm').addEventListener('submit', createBlogPost);
+     });
+    
+    
 
-    let posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
-
-    const newPost = {
-        id: Date.now(),  
-        title: title,
-        content: content,
-        imgUrl: imgUrl,
-        date: new Date().toLocaleString()
-    };
-
-    // console.log("Hi");
-
-    posts.push(newPost);
-
-    localStorage.setItem('blogPosts', JSON.stringify(posts));
-
-
-    document.getElementById('createBlogForm').reset();
-    window.location.href = 'index.html';
-}
-
-document.getElementById('createBlogForm').addEventListener('submit', createBlogPost);
- });
-
-
+// Function to display blogs
 function displayBlogs() {
     let posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
     const blogListContainer = document.getElementById('blogList');
@@ -45,8 +47,13 @@ function displayBlogs() {
 
     posts.forEach(post => {
         const blogPostDiv = document.createElement('div');
-        blogPostDiv.classList.add('blog-post', 'border', 'p-4', 'mb-4', 'bg-white','flex','gap-5','items-center','cursor-pointer');
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('flex','flex-col','items-start');
+        blogPostDiv.classList.add('blog-post', 'border', 'p-4', 'mb-4', 'bg-white', 'flex', 'gap-5', 'items-start', 'cursor-pointer','rounded-md');
         blogPostDiv.addEventListener('click', () => {
+            // Increment views on click
+            incrementViewCount(post.id);
+
             // Redirect to the post detail page
             window.location.href = `post.html?id=${post.id}`;
         });
@@ -66,14 +73,14 @@ function displayBlogs() {
             const img = document.createElement('img');
             img.src = post.imgUrl;
             img.alt = "Blog Image";
-            img.classList.add('w-32', 'rounded-md', 'object-cover');
+            img.classList.add('w-100', 'rounded-md', 'object-cover');
             blogPostDiv.appendChild(img);
         }
 
         // Views, Edit, and Delete
         const actionDiv = document.createElement('div');
-        actionDiv.classList.add('flex', 'justify-between', 'items-center', 'mt-3');
-        
+        actionDiv.classList.add('flex','flex-col', 'gap-5','items-start','justify-between', 'items-center', 'mt-3');
+
         const views = document.createElement('span');
         views.textContent = `Views: ${post.views || 0}`;
         views.classList.add('text-sm', 'text-gray-500');
@@ -83,6 +90,7 @@ function displayBlogs() {
         editButton.classList.add('text-blue-600', 'hover:text-blue-800');
         editButton.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent click from triggering redirect
+            console.log()
             editPost(post.id); // Call edit function
         });
 
@@ -98,12 +106,25 @@ function displayBlogs() {
         actionDiv.appendChild(editButton);
         actionDiv.appendChild(deleteButton);
 
-        blogPostDiv.appendChild(title);
-        blogPostDiv.appendChild(content);
+        contentDiv.appendChild(title);
+        contentDiv.appendChild(content);
+
+        blogPostDiv.appendChild(contentDiv);
         blogPostDiv.appendChild(actionDiv);
 
         blogListContainer.appendChild(blogPostDiv);
     });
+}
+
+// Increment the view count when a post is clicked
+function incrementViewCount(postId) {
+    let posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+    const post = posts.find(p => p.id === postId);
+
+    if (post) {
+        post.views = (post.views || 0) + 1; // Increment view count
+        localStorage.setItem('blogPosts', JSON.stringify(posts)); // Save updated posts
+    }
 }
 
 // Function to edit a blog post

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="edit_blog.js"></script>
+    <title>Edit Blog Post</title>
+</head>
+<body>
+    <nav class="flex bg-[#281a69] text-white items-center justify-between px-30 py-5 border-b-1 border-[#ff6096]/20 sticky top-0">
+        <span class="text-3xl font-bold">JBlog</span>
+    </nav>
+
+    <div class="container mx-auto mt-10 px-4">
+        <h2 class="text-xl font-bold mb-4">Edit Blog Post</h2>
+        <form id="editBlogForm" class="space-y-4">
+            <input type="hidden" id="postId">
+            <div>
+                <label for="title" class="block">Title</label>
+                <input type="text" id="title" class="border p-2 w-full">
+            </div>
+            <div>
+                <label for="content" class="block">Content</label>
+                <textarea id="content" class="border p-2 w-full"></textarea>
+            </div>
+            <div>
+                <label for="imgUrl" class="block">Image URL</label>
+                <input type="text" id="imgUrl" class="border p-2 w-full">
+            </div>
+            <button type="submit" class="bg-[#ff6096] text-white px-4 py-2 rounded">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>
