@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <script src="edit_blog.js"></script>
     <title>Edit Blog Post</title>
 </head>
 <body>
@@ -31,5 +30,41 @@
             <button type="submit" class="bg-[#ff6096] text-white px-4 py-2 rounded">Save Changes</button>
         </form>
     </div>
+    <script src="blog.js"></script>
+     <!-- Add the JavaScript for editing functionality -->
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const post = JSON.parse(localStorage.getItem('editPost'));
+            if (post) {
+                // Pre-fill the form with the existing post data
+                document.getElementById('title').value = post.title;
+                document.getElementById('content').value = post.content;
+                document.getElementById('imgUrl').value = post.imgUrl;
+                document.getElementById('postId').value = post.id; // Store post ID in hidden field
+            }
+
+            const editBlogForm = document.getElementById('editBlogForm');
+            editBlogForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const updatedTitle = document.getElementById('title').value;
+                const updatedContent = document.getElementById('content').value;
+                const updatedImgUrl = document.getElementById('imgUrl').value;
+                const postId = document.getElementById('postId').value;
+
+                let posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+                const postIndex = posts.findIndex(p => p.id === parseInt(postId));
+                if (postIndex !== -1) {
+                    posts[postIndex].title = updatedTitle;
+                    posts[postIndex].content = updatedContent;
+                    posts[postIndex].imgUrl = updatedImgUrl;
+
+                    localStorage.setItem('blogPosts', JSON.stringify(posts)); // Save the updated posts
+                }
+
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
 </body>
 </html>
